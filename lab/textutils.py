@@ -1,5 +1,7 @@
 """Small text helpers. A deliberately tiny codebase for testing the DFS autonomous workflow."""
 
+import re
+
 
 def word_count(text: str) -> int:
     """Number of whitespace-separated words in text."""
@@ -13,3 +15,8 @@ def truncate(text: str, max_length: int, suffix: str = "...") -> str:
     if len(text) <= max_length:
         return text
     return text[: max_length - len(suffix)] + suffix
+
+
+def slugify(text: str) -> str:
+    """URL-friendly slug: lowercase, runs of non-alphanumerics become one "-", no leading/trailing "-"."""
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")

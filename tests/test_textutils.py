@@ -1,6 +1,6 @@
 import unittest
 
-from lab.textutils import truncate, word_count
+from lab.textutils import slugify, truncate, word_count
 
 
 class WordCountTests(unittest.TestCase):
@@ -24,6 +24,26 @@ class TruncateTests(unittest.TestCase):
     def test_rejects_length_shorter_than_suffix(self):
         with self.assertRaises(ValueError):
             truncate("hello", 2)
+
+
+class SlugifyTests(unittest.TestCase):
+    def test_title_becomes_slug(self):
+        self.assertEqual(slugify("Dragon Fhang Studios!"), "dragon-fhang-studios")
+
+    def test_lowercases_text(self):
+        self.assertEqual(slugify("HeLLo"), "hello")
+
+    def test_collapses_runs_of_spaces_and_punctuation(self):
+        self.assertEqual(slugify("one   two,  --three"), "one-two-three")
+
+    def test_strips_leading_and_trailing_dashes(self):
+        self.assertEqual(slugify("  --hello world?! "), "hello-world")
+
+    def test_empty_text_gives_empty_slug(self):
+        self.assertEqual(slugify(""), "")
+
+    def test_only_punctuation_gives_empty_slug(self):
+        self.assertEqual(slugify("!!!"), "")
 
 
 if __name__ == "__main__":
